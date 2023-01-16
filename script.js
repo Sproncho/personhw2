@@ -11,11 +11,24 @@ while (inputData){
     }
     inputData = prompt('Enter person data separate by ","');
 }
-printPersons(persons);
+
+
 printStats(persons);
+printPersons(persons);
+
+
+
+
 
 function printPersons(persons) {
-    persons.forEach( p => console.log(`id:${p.id}, fullname: ${p.fullName()}, age: ${p.age}` ));
+    let personList = document.querySelector(".personList");
+   // let do
+    persons.forEach( p => {
+        let person = document.createElement("li");
+        person.className = "person";
+        person.innerHTML = `id:${p.id}, full name:${p.fullName()}, age:${p.age}`
+        personList.append(person);
+    });
 }
 //*
 function printStats(persons) {
@@ -23,10 +36,25 @@ function printStats(persons) {
     let minAge = persons.reduce((acc,cur)=> +cur.age < +acc  ? cur.age : +acc,99999999);
     let maxAge = persons.reduce((acc,cur)=> +cur.age > +acc  ? cur.age : +acc,0);
     let avg = persons.reduce((acc,cur)=> +acc + +cur.age,0) / persons.length;
+    let personList = document.querySelector(".personList");
 
-    console.log(`minage: ${minAge}`);
-    console.log(`maxAge: ${maxAge}`);
-    console.log(`avg: ${avg}`);
+    let statistics = document.createElement("div");
+    statistics.className = "statistics";
+
+    let minStat = document.createElement("div");
+    minStat.className = "stat";
+    minStat.innerHTML = `min age:${minAge}`;
+
+    let maxStat = document.createElement("div");
+    maxStat.className = "stat";
+    maxStat.innerHTML = `max age:${maxAge}`;
+
+    let avgStat = document.createElement("div");
+    avgStat.className = "stat";
+    avgStat.innerHTML = `average:${avg}`;
+
+    statistics.append(minStat,maxStat,avgStat);
+    personList.append(statistics)
 }
 
 function Person(id, firstName, lastName, age) {
