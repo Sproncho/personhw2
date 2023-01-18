@@ -1,27 +1,77 @@
 //id;firstName;lastName;age
-const persons = [];
-let inputData = prompt('Enter person data separate by ","');
-while (inputData){
-    //Create person from inputData
-    //add only unique person to persons
-    let data = inputData.split(',');
-    let person = new Person(data[0],data[1],data[2],data[3],data[4]);
-    if(!persons.find(p => p.id === person.id)){
-        persons.push(person);
-    }
-    inputData = prompt('Enter person data separate by ","');
+function Conditions(list,add,info){
+    this.list = list;
+    this.add = add;
+    this.info = info;
 }
 
+let showInfo = false;
+function Person(id,firstName, lastName, age){
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.age = age;
+    this.fullName = `${firstName} ${lastName}`;
+}
 
-printStats(persons);
+function changeConditions(conditions){
+    let props = []
+    let cond = Object.values(conditions);
+    props[0] = document.querySelector(".personList");
+    props[1] = document.querySelector("#addPerson");
+    props.forEach((p,i)=>{
+        if(cond[i] === true)
+            p.style.display = 'block';
+        else
+            p.style.display = 'none';
+    })
+}
+const persons = [];
+
+
+
+
+
+changeConditions(new Conditions(true,false,false));
+
 printPersons(persons);
+let plusButton = document.querySelector("#plusButton");
+plusButton.onclick = (e)=>{
+    changeConditions(new Conditions(false,true,false));
+    plusButton.style.display = "none";
+    infoButton.style.display = "none";
 
+}
 
+let addButton = document.querySelector("#addButton");
+addButton.onclick = (e) =>{
+    let person = new Person(idInput.value,firstNameInput.value,secondNameInput.value,ageInput.value);
+    persons.push(person);
+    let inputs = Array.from( document.querySelector(".inputs").children);
+    inputs.forEach(i => i.value = "");
+    changeConditions(new Conditions(true,false,false));
+    printPersons(persons);
+    infoButton.style.display = "block";
+    plusButton.style.display = "block";
+    showInfo = false;
 
+}
+
+let infoButton = document.querySelector("#infoButton")
+infoButton.onclick = (e) =>{
+    if (showInfo === true){
+        printPersons(persons)
+    }
+    if(showInfo === false){
+        printStats(persons)
+    }
+    showInfo = !showInfo;
+}
 
 
 function printPersons(persons) {
     let personList = document.querySelector(".personList");
+    removeAllChildNodes(personList)
    // let do
     persons.forEach( p => {
         let person = document.createElement("li");
@@ -30,14 +80,18 @@ function printPersons(persons) {
         personList.append(person);
     });
 }
-//*
+
+
+
+
+//
 function printStats(persons) {
     //TODO print min age, max age, average age
     let minAge = persons.reduce((acc,cur)=> +cur.age < +acc  ? cur.age : +acc,99999999);
     let maxAge = persons.reduce((acc,cur)=> +cur.age > +acc  ? cur.age : +acc,0);
     let avg = persons.reduce((acc,cur)=> +acc + +cur.age,0) / persons.length;
     let personList = document.querySelector(".personList");
-
+    removeAllChildNodes(personList);
     let statistics = document.createElement("div");
     statistics.className = "statistics";
 
@@ -64,5 +118,10 @@ function Person(id, firstName, lastName, age) {
     this.age = age;
     this.fullName = function () {
         return `${this.firstName} ${this.lastName}`;
+    }
+}
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
     }
 }
