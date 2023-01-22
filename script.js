@@ -26,7 +26,7 @@ function changeConditions(conditions){
             p.style.display = 'none';
     })
 }
-const persons = [];
+let persons = [];
 
 
 
@@ -34,7 +34,7 @@ const persons = [];
 
 changeConditions(new Conditions(true,false,false));
 
-printPersons(persons);
+printPersons();
 let plusButton = document.querySelector("#plusButton");
 plusButton.onclick = (e)=>{
     changeConditions(new Conditions(false,true,false));
@@ -69,14 +69,25 @@ infoButton.onclick = (e) =>{
 }
 
 
-function printPersons(persons) {
+function printPersons() {
     let personList = document.querySelector(".personList");
     removeAllChildNodes(personList)
+    console.log(persons)
    // let do
     persons.forEach( p => {
         let person = document.createElement("li");
         person.className = "person";
         person.innerHTML = `id:${p.id}, full name:${p.fullName()}, age:${p.age}`
+        let deleteBtn = document.createElement("div");
+        deleteBtn.className = "button";
+        deleteBtn.id = id="deleteButton";
+        deleteBtn.innerText = "x"
+        deleteBtn.onclick = (e) => {
+            persons = persons.filter((pers) => pers.id != p.id );
+            e.target.parentElement.remove();
+            console.log(persons);
+        }
+        person.append(deleteBtn)
         personList.append(person);
     });
 }
@@ -85,7 +96,7 @@ function printPersons(persons) {
 
 
 //
-function printStats(persons) {
+function printStats() {
     //TODO print min age, max age, average age
     let minAge = persons.reduce((acc,cur)=> +cur.age < +acc  ? cur.age : +acc,99999999);
     let maxAge = persons.reduce((acc,cur)=> +cur.age > +acc  ? cur.age : +acc,0);
