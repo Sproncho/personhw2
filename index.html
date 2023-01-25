@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <title>Persons</title>
     <script src="script.js" defer></script>
+    <script src="Person.js"></script>
+    <script src="Company.js"></script>
+    <script src="utils.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="root">
         <ul class="personList">
-            <li class="person"><div>`id:efc, full name:frcrg rv, age:1` </div>
-                <div class="button" id="deleteButton">
-                    x
-                </div>
-            </li>
         </ul>
         <div class="btnWrap">
             <div class="button" id="infoButton">
@@ -28,7 +26,8 @@
                 <input type="text" name="id" id="idInput" placeholder="id">
                 <input type="text" name="firstName" id="firstNameInput" placeholder="firstName">
                 <input type="text" name="secondName" id="secondNameInput" placeholder="secondName">
-                <input type="text" name="age" id="ageInput" placeholder="age">
+                <input type="date" name="age" id="ageInput" placeholder="date">
+                <input type="text" name="salary" id="salaryInput" placeholder="salary">
             </div>
             <div id="addButton">add</div>
         </div>
